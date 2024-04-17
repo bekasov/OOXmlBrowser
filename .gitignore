@@ -91,3 +91,6 @@ ENV/
 
 # IDEA
 /.idea
+
+/_thirdParty/**
+!/_thirdParty/__init__.py

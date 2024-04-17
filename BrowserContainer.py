@@ -10,7 +10,7 @@ class BrowserContainer(Gtk.Paned):
     def __init__(self, parent: Gtk.Window, load_file: str = None):
         super().__init__()
 
-        source_view: GtkSource.View = SourceView()
+        source_view: SourceView = SourceView()
 
         self.tree_view = GtkTreeViewer(SourceViewDisplay(source_view))
 
@@ -27,7 +27,7 @@ class BrowserContainer(Gtk.Paned):
         left_box.pack_start(scrolled_tree_view, True, True, 0)
 
         scrolled_source_view = Gtk.ScrolledWindow()
-        scrolled_source_view.add(source_view)
+        scrolled_source_view.add(source_view.get_view())
 
         self.pack1(left_box, True, True)
         self.pack2(scrolled_source_view, True, True)
