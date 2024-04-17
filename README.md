@@ -2,10 +2,10 @@
 About OOXML Browser
 ==========
 
-Zipped XML Browser is a visual tool targeted at developers. It helps you
+OOXML Browser is a visual tool targeted at developers. It helps you
 browse content of an OOXML-standard based office files.
 
-Zipped XML Browser is licensed under the Expat licence.
+OOXML Browser is licensed under the Expat licence.
 
 
 Requirements

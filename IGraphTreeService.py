@@ -1,16 +1,16 @@
 class IGraphTreeService:
 
-    def ListItems(self, path: str):
+    def list_items(self, path: str):
         pass
 
-    def GetShortItemName(self, item) -> str:
+    def get_short_item_name(self, item) -> str:
         pass
 
-    def GetFullItemName(self, item) -> str:
+    def get_full_item_name(self, item) -> str:
         pass
 
-    def IsItemFolder(self, item) -> bool:
+    def is_item_folder(self, item) -> bool:
         pass
 
-    def GetItemContent(self, item) -> bytes:
+    def get_item_content(self, item) -> bytes:
         pass

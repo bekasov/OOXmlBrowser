@@ -24,8 +24,6 @@ class LoadButton(Gtk.Button):
 
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-            print("Open clicked")
-            print("File selected: " + dialog.get_filename())
             if self.on_file_choose is not None:
                 self.on_file_choose(dialog.get_filename())
             if self.on_files_choose is not None:

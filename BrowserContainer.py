@@ -1,16 +1,19 @@
-from gi.repository import Gtk, GtkSource
+from gi.repository import Gtk
 
+from FileSystemGrafTreeService import FileSystemGrafTreeService
 from GtkTreeViewer import GtkTreeViewer
 from LoadButton import LoadButton
 from SourceView import SourceView
 from SourceViewDisplay import SourceViewDisplay
+from Utils import file_is_supported
+from ZipFileGraphTreeService import ZipFileGraphTreeService
 
 
 class BrowserContainer(Gtk.Paned):
     def __init__(self, parent: Gtk.Window, load_file: str = None):
         super().__init__()
 
-        source_view: GtkSource.View = SourceView()
+        source_view: SourceView = SourceView()
 
         self.tree_view = GtkTreeViewer(SourceViewDisplay(source_view))
 
@@ -37,4 +40,7 @@ class BrowserContainer(Gtk.Paned):
             self.load_file(load_file)
 
     def load_file(self, file_path: str) -> None:
-        self.tree_view.populateFileSystemTreeStore(file_path)
+        self.tree_view.populate_file_system_tree_store(
+            file_path,
+            None,
+            ZipFileGraphTreeService() if file_is_supported(file_path) else FileSystemGrafTreeService())

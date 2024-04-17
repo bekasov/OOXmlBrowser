@@ -1,3 +1,5 @@
+import gi
+gi.require_version("GtkSource", "4")
 from gi.repository import Gtk, GtkSource
 
 
@@ -8,10 +10,9 @@ class SourceView(GtkSource.View):
         super().__init__(*args, **kwargs)
 
         self.text_buffer: GtkSource.Buffer = self.get_buffer()
-        manager: GtkSource.StyleSchemeManager = GtkSource.StyleSchemeManager.get_default()
-        re= manager.get_scheme_ids()
+        style_manager: GtkSource.StyleSchemeManager = GtkSource.StyleSchemeManager.get_default()
 
-        scheme = manager.get_scheme("solarized-dark")
+        scheme = style_manager.get_scheme("solarized-dark")
         self.text_buffer.set_style_scheme(scheme)
         # nn = Gtk.IconTheme.get_default().list_icons()
         self.set_show_line_numbers(True)
@@ -21,8 +22,9 @@ class SourceView(GtkSource.View):
         Gtk.StyleContext.add_provider(self.get_style_context(), css_provider, 1)
         self.set_highlight_current_line(True)
 
-    def set_text(self, text: str, extension: str) -> None:
-        manager = GtkSource.LanguageManager()
-        language: GtkSource.Language = manager.guess_language(extension if extension is not None else ".txt", "text/plain")
+        lang_manager = GtkSource.LanguageManager()
+        language: GtkSource.Language = lang_manager.guess_language(".xml", "text/plain")
         self.text_buffer.set_language(language)
+
+    def set_text(self, text: str, extension: str) -> None:
         self.text_buffer.set_text(text if text is not None else "")

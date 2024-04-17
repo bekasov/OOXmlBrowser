@@ -56,7 +56,7 @@ class ZipFileGraphTreeService(IGraphTreeService):
     root: File = None
     zip_file: zipfile.ZipFile = None
 
-    def ListItems(self, path: str):
+    def list_items(self, path: str):
         if self.root is None:
             self.root = File.create_root()
 
@@ -82,21 +82,19 @@ class ZipFileGraphTreeService(IGraphTreeService):
 
         return result
 
-    def GetShortItemName(self, item: File) -> str:
+    def get_short_item_name(self, item: File) -> str:
         return item.file_name
 
-    def GetFullItemName(self, item: File) -> str:
+    def get_full_item_name(self, item: File) -> str:
         return item.get_full_path()
 
-    def IsItemFolder(self, item: File) -> bool:
+    def is_item_folder(self, item: File) -> bool:
         return item.is_folder()
 
-    def GetItemContent(self, item: File) -> bytes:
+    def get_item_content(self, item: File) -> bytes:
         if item.is_folder():
             return "[" + item.get_full_path() + "]"
-        return self.zip_file.open(item.get_full_path()).read() # .decode("utf-8")
-
-
+        return self.zip_file.open(item.get_full_path()).read()  # .decode("utf-8")
 
 
 class ZipFileData:

@@ -3,6 +3,7 @@ import sys
 from gi.repository import Gtk
 from BrowserContainer import BrowserContainer
 from LoadButton import LoadButton
+from Utils import file_is_supported
 
 
 class MyWindow(Gtk.Window):
@@ -24,13 +25,15 @@ class MyWindow(Gtk.Window):
 
         self.add(self.content_box)
 
-        args = list(filter(lambda arg: arg.endswith(".xlsx") or arg.endswith(".docx") or arg.endswith(".pptx"), sys.argv[1:]))
+        args = sys.argv[1:]
         if len(args):
             self.on_files_chose(args)
 
     def on_files_chose(self, files):
         files_count = len(files) - 1
         for idx, file in enumerate(files):
+            if not file_is_supported(file):
+                continue
             browser = BrowserContainer(self, file)
             self.content_box.pack1(browser, True, True)
             if idx < files_count:
