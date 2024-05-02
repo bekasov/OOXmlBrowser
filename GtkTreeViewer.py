@@ -1,3 +1,5 @@
+import os
+
 from gi.repository import Gtk
 
 from IDisplayService import IDisplayService
@@ -22,17 +24,16 @@ class GtkTreeViewer:
 
         file_column_text = Gtk.CellRendererText()
         file_column_image = Gtk.CellRendererPixbuf()
-        file_column = Gtk.TreeViewColumn("File")
-        file_column.pack_start(file_column_image, False)
-        file_column.pack_start(file_column_text, True)
-        file_column.add_attribute(file_column_text, "text", 0)
-        file_column.add_attribute(file_column_image, "pixbuf", 1)
-        self.tree_view.append_column(file_column)
+        self.file_column = Gtk.TreeViewColumn("File")
+        self.file_column.pack_start(file_column_image, False)
+        self.file_column.pack_start(file_column_text, True)
+        self.file_column.add_attribute(file_column_text, "text", 0)
+        self.file_column.add_attribute(file_column_image, "pixbuf", 1)
+        self.tree_view.append_column(self.file_column)
         self.tree_view.connect("row-expanded", self.on_row_expanded)
         self.tree_view.connect("row-collapsed", self.on_row_collapsed)
         selection: Gtk.TreeSelection = self.tree_view.get_selection()
         selection.connect("changed", self.on_selection_changed)
-        # selection.
 
     def on_selection_changed(self, selection):
         model, treeiter = selection.get_selected()
@@ -54,6 +55,7 @@ class GtkTreeViewer:
             self.tree_store.clear()
             self.text_displayer.clear()
             self.path_to_show = get_default_path(path)
+            self.file_column.set_title(os.path.split(path)[1])
 
         item_counter = 0
 

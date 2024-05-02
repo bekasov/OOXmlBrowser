@@ -66,6 +66,8 @@ class ZipFileGraphTreeService(IGraphTreeService):
             for full_name in name_list:
                 current_root = self.root
                 full_name_parts = full_name.split("/")
+                if full_name.endswith("/") and full_name_parts[-1] == '':
+                    full_name_parts.pop()
                 for file_name in full_name_parts:
                     current_file: File = current_root.get_child(file_name)
                     if current_file is None:
