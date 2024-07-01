@@ -30,3 +30,25 @@ Running
 ```sh
 $ ./ooxmlbrowser [ooxmlfile-1] .. [ooxmlfile-n] 
 ```
+
+Prepare to run with MSYS2
+-------------------------
+
+```sh
+pacman -S mingw-w64-ucrt-x86_64-gtk3
+pacman -S mingw-w64-ucrt-x86_64-python-lxml
+pacman -S mingw-w64-ucrt-x86_64-gtksourceview4
+pacman -S mingw-w64-ucrt-x86_64-python3-gobject
+```
+
+Prepare to build with MSYS2
+-------------------------
+
+```sh
+pacman -S mingw-w64-ucrt-x86_64-python-cx-freeze
+```
+
+To build with MSYS2, run
+```sh
+python3 setup_win32.py bdist
+```
