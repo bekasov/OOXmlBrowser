@@ -1,9 +1,12 @@
 import gi
+
+from model.ISourceViewer import ISourceViewer
+
 gi.require_version("GtkSource", "4")
 from gi.repository import Gtk, GtkSource
 
 
-class SourceView(GtkSource.View):
+class SourceView(GtkSource.View, ISourceViewer):
     __gtype_name__ = "SourceView"
 
     def __init__(self, *args, **kwargs):
