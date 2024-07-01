@@ -2,11 +2,11 @@ import os
 
 from gi.repository import Gtk
 
-from IDisplayService import IDisplayService
-from IGraphTreeService import IGraphTreeService
+from model.IDisplayService import IDisplayService
+from model.IGraphTreeService import IGraphTreeService
 from gi.repository.GdkPixbuf import Pixbuf
 
-from Utils import get_default_path
+from service.Utils import get_default_path
 
 
 class GtkTreeViewer:
@@ -59,7 +59,6 @@ class GtkTreeViewer:
 
         item_counter = 0
 
-        # iterate over the items in the path
         for item in self.tree_service.list_items(path):
             item_is_folder = self.tree_service.is_item_folder(item)
             item_icon = Gtk.IconTheme.get_default().load_icon("folder" if item_is_folder else "text-html", 22, 0)

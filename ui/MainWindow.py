@@ -1,12 +1,12 @@
 import sys
 
 from gi.repository import Gtk
-from BrowserContainer import BrowserContainer
-from LoadButton import LoadButton
-from Utils import file_is_supported
+from ui.BrowserContainer import BrowserContainer
+from ui.LoadButton import LoadButton
+from service.Utils import file_is_supported
 
 
-class MyWindow(Gtk.Window):
+class MainWindow(Gtk.Window):
     def __init__(self):
         super().__init__(title="OOXML Browser")
         self.connect("destroy", Gtk.main_quit)

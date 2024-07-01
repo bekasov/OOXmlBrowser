@@ -1,7 +1,7 @@
 import zipfile
 import typing
 from typing import Self
-from IGraphTreeService import IGraphTreeService
+from model.IGraphTreeService import IGraphTreeService
 
 
 class File:

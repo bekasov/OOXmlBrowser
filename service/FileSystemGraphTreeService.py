@@ -1,10 +1,10 @@
 import os
 import stat
 
-from IGraphTreeService import IGraphTreeService
+from model.IGraphTreeService import IGraphTreeService
 
 
-class FileSystemGrafTreeService(IGraphTreeService):
+class FileSystemGraphTreeService(IGraphTreeService):
     path: str
 
     def list_items(self, path: str):
@@ -18,5 +18,5 @@ class FileSystemGrafTreeService(IGraphTreeService):
         return os.path.join(self.path, item)
 
     def is_item_folder(self, item) -> bool:
-        itemMetaData = os.stat(self.get_full_item_name(item))
-        return stat.S_ISDIR(itemMetaData.st_mode)
+        item_meta_data = os.stat(self.get_full_item_name(item))
+        return stat.S_ISDIR(item_meta_data.st_mode)
