@@ -1,3 +1,5 @@
+import collections
+
 import gi
 
 from model.ISourceViewer import ISourceViewer
@@ -12,11 +14,7 @@ class SourceView(GtkSource.View, ISourceViewer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.text_buffer: GtkSource.Buffer = self.get_buffer()
-        style_manager: GtkSource.StyleSchemeManager = GtkSource.StyleSchemeManager.get_default()
-
-        scheme = style_manager.get_scheme("solarized-dark")
-        self.text_buffer.set_style_scheme(scheme)
+        self.buffers = {}
         # nn = Gtk.IconTheme.get_default().list_icons()
         self.set_show_line_numbers(True)
         self.set_monospace(True)
@@ -25,9 +23,26 @@ class SourceView(GtkSource.View, ISourceViewer):
         Gtk.StyleContext.add_provider(self.get_style_context(), css_provider, 1)
         self.set_highlight_current_line(True)
 
+    def set_text(self, file_name: str, text: str, extension: str) -> None:
+        if file_name not in self.buffers:
+            self.buffers[file_name] = self._create_buffer()
+        text_buffer: GtkSource.Buffer = self.buffers[file_name]
+        self.buffers[file_name].set_text(text if text is not None else "")
+        # self.text_buffer.set_text(text if text is not None else "")
+
+    def clear(self) -> None:
+        self.buffers.clear()
+        self.set_text(None, None, None)
+
+    def _create_buffer(self) -> GtkSource.Buffer:
+        result: GtkSource.Buffer = self.get_buffer()
+        style_manager: GtkSource.StyleSchemeManager = GtkSource.StyleSchemeManager.get_default()
+
+        scheme = style_manager.get_scheme("solarized-dark")
+        result.set_style_scheme(scheme)
+
         lang_manager = GtkSource.LanguageManager()
         language: GtkSource.Language = lang_manager.guess_language(".xml", "text/plain")
-        self.text_buffer.set_language(language)
+        result.set_language(language)
 
-    def set_text(self, text: str, extension: str) -> None:
-        self.text_buffer.set_text(text if text is not None else "")
+        return result

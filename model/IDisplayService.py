@@ -1,5 +1,5 @@
 class IDisplayService:
-    def display(self, content: bytes) -> None:
+    def display(self, file_name: str, content: bytes) -> None:
         pass
 
     def clear(self) -> None:

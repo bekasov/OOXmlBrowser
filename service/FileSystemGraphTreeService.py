@@ -1,6 +1,7 @@
 import os
 import stat
 
+from model.FileEntry import FileEntry
 from model.IGraphTreeService import IGraphTreeService
 
 
@@ -17,6 +18,6 @@ class FileSystemGraphTreeService(IGraphTreeService):
     def get_full_item_name(self, item) -> str:
         return os.path.join(self.path, item)
 
-    def is_item_folder(self, item) -> bool:
+    def is_item_folder(self, item: FileEntry) -> bool:
         item_meta_data = os.stat(self.get_full_item_name(item))
         return stat.S_ISDIR(item_meta_data.st_mode)

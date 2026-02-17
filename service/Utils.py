@@ -1,5 +1,7 @@
+import os
+
 supported_extensions_data = {
-    ".xlsx": "xl/styles.xml", ".docx": "word/styles.xml", ".pptx": "ppt/tableStyles.xml"
+    ".xlsx": "xl/styles.xml", ".docx": "word/styles.xml", ".pptx": "ppt/tableStyles.xml", ".xlsm": "xl/styles.xml"
 }
 
 
@@ -17,3 +19,8 @@ def get_filter(file_path: str):
 
 def extension_filter(file_path: str, extension: str) -> bool:
     return file_path.endswith(extension)
+
+
+def get_extension(file_path: str) -> str:
+    filename, file_extension = os.path.splitext(file_path)
+    return file_extension

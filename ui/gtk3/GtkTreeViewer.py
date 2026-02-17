@@ -2,6 +2,7 @@ import os
 
 from gi.repository import Gtk
 
+from model.FileEntry import FileEntry
 from model.IDisplayService import IDisplayService
 from model.IGraphTreeService import IGraphTreeService
 from gi.repository.GdkPixbuf import Pixbuf
@@ -38,11 +39,12 @@ class GtkTreeViewer:
     def on_selection_changed(self, selection):
         model, treeiter = selection.get_selected()
         if treeiter is not None:
-            selected_item = model[treeiter][3]
+            selected_item: FileEntry = model[treeiter][3]
             if self.tree_service.is_item_folder(selected_item):
                 return
 
-            self.text_displayer.display(self.tree_service.get_item_content(selected_item))
+            self.text_displayer.display(self.tree_service.get_full_item_name(selected_item),
+                                        self.tree_service.get_item_content(selected_item))
 
     def get_tree_view(self) -> Gtk.TreeView:
         return self.tree_view
@@ -50,10 +52,10 @@ class GtkTreeViewer:
     def populate_file_system_tree_store(self, path: str, parent=None, tree_service: IGraphTreeService = None):
 
         if tree_service:
-            self.file_path = path
-            self.tree_service = tree_service
-            self.tree_store.clear()
+            self.file_path: str = path
+            self.tree_service: IGraphTreeService = tree_service
             self.text_displayer.clear()
+            self.tree_store.clear()
             self.path_to_show = get_default_path(path)
             self.file_column.set_title(os.path.split(path)[1])
 

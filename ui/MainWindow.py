@@ -1,5 +1,8 @@
 import sys
 
+import gi
+
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 from ui.BrowserContainer import BrowserContainer
 from ui.LoadButton import LoadButton
@@ -44,5 +47,9 @@ class MainWindow(Gtk.Window):
             self.content_box = next_pane
             browser.show_all()
 
+    def run(self):
+        self.show_all()
+        self.present()
+        Gtk.main()
 
 

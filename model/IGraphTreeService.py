@@ -1,3 +1,6 @@
+from model.FileEntry import FileEntry
+
+
 class IGraphTreeService:
 
     def list_items(self, path: str):
@@ -9,7 +12,7 @@ class IGraphTreeService:
     def get_full_item_name(self, item) -> str:
         pass
 
-    def is_item_folder(self, item) -> bool:
+    def is_item_folder(self, item: FileEntry) -> bool:
         pass
 
     def get_item_content(self, item) -> bytes:
