@@ -28,19 +28,31 @@ jobs:
           python-version: '3.14'
           cache: 'pip'
 
+      - name: Check girepository pkg-config
+        run: pkg-config --modversion girepository-2.0 || echo "Not found"
+
       - name: Install system dependencies
         run: |
           sudo apt update
+          sudo apt upgrade
           sudo apt install -y \
-            libgtk-4-dev \
-            libgtksourceview-5-dev \
-            libgirepository1.0-dev \
-            libcairo2-dev \
-            python3-dev \
-            upx-ucl \
-            binutils \
-            bzip2 \
-            tidy
+              libgtk-4-dev \
+              libgtksourceview-5-dev \
+              libgirepository-2.0-dev \
+              gobject-introspection \
+              libcairo2-dev \
+              python3-dev \
+              upx-ucl \
+              binutils \
+              bzip2 \
+              tidy \
+              libgtk-4-1 \
+              libgtksourceview-5-0 \
+              gir1.2-gtk-4.0 \
+              gir1.2-gtksource-5 \
+              gir1.2-glib-2.0 \
+              gir1.2-gio-2.0 \
+              gir1.2-girepository-3.0-dev
 
       - name: Install Python dependencies
         run: |
