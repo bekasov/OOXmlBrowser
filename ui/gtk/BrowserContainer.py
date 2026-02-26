@@ -48,7 +48,7 @@ class BrowserContainer(Gtk.Paned):
         self.set_end_child(scrolled_source_view)
         self.set_resize_end_child(True)
         self.set_shrink_end_child(True)
-        self.set_position(200)
+        self.set_position(300)
 
         if file_to_load is not None:
             self.load_file([file_to_load])

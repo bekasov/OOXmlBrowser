@@ -1,4 +1,6 @@
 name: Build Linux
+permissions:
+  contents: write
 
 on:
   push:
@@ -60,23 +62,36 @@ jobs:
           pip install -r requirements.txt
           pip install pyinstaller
 
+      - name: Set version
+        id: version
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            VERSION="${{ github.event.inputs.version }}"
+          else
+            VERSION="${GITHUB_REF_NAME#refs/tags/}"
+          fi
+          echo "VERSION=${VERSION:-snapshot}" >> $GITHUB_ENV
+
       - name: Build with PyInstaller
         run: |
           pyinstaller disttools/OOXmlBrowserOneDir.spec
 
-      - name: Upload Linux artifact (folder)
+      - name: Prepare artifact (tar.bz2)
+        run: |
+          cd dist
+          tar -cjf "OOXmlBrowser-${VERSION}-linux-portable.tar.bz2" OOXmlBrowser/
+
+      - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
-          name: OOXmlBrowser-linux
-          path: dist/OOXmlBrowser
+          name: OOXmlBrowser-linux-${{ env.VERSION }}
+          path: dist/OOXmlBrowser-${{ env.VERSION }}-linux-portable.tar.bz2
 
       - name: Create release (if tag or manual dispatch)
-        if: >
-          startsWith(github.ref, 'refs/tags/') || 
-          github.event_name == 'workflow_dispatch'
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/OOXmlBrowser-linux.tar.bz2
+          files: dist/OOXmlBrowser-${{ env.VERSION }}-linux-portable.tar.bz2
           tag_name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || github.ref_name }}
           name: Release ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || github.ref_name }}
           draft: false

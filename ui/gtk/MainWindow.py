@@ -12,7 +12,7 @@ class MainWindow(Gtk.Window):
         self.connect("close-request", self.on_close_request)
 
         #self.set_border_width(5)
-        self.set_default_size(1200, 800)
+        self.set_default_size(1400, 800)
 
         key_controller = Gtk.EventControllerKey.new()
         key_controller.connect("key-pressed", self.on_key_pressed)
