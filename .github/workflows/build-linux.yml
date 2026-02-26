@@ -1,0 +1,79 @@
+name: Build Linux
+
+on:
+  push:
+    branches: [ "master" ]
+    tags:
+      - "v*"
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g., v1.2.3)'
+        required: false
+        default: 'snapshot'
+
+jobs:
+  build-linux:
+    name: Build for Linux
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: 'pip'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            libgtk-4-dev \
+            libgtksourceview-5-dev \
+            libgirepository1.0-dev \
+            libcairo2-dev \
+            python3-dev \
+            upx-ucl \
+            binutils \
+            bzip2 \
+            tidy
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build with PyInstaller
+        run: |
+          pyinstaller disttools/OOXmlBrowserOneDir.spec
+
+      - name: Prepare artifact (tar.bz2)
+        run: |
+          cd dist
+          tar -cjf OOXmlBrowser-linux.tar.bz2 OOXmlBrowser/
+
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OOXmlBrowser-linux
+          path: dist/OOXmlBrowser-linux.tar.bz2
+
+      - name: Create release (if tag or manual dispatch)
+        if: >
+          startsWith(github.ref, 'refs/tags/') || 
+          github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/OOXmlBrowser-linux.tar.bz2
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || github.ref_name }}
+          name: Release ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.version || github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

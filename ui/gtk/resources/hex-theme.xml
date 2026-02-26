@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style-scheme
+    id="ooxml-browser-hex-theme"
+    name="OOXmlBrowser Hex Theme"
+    version="1.0"
+    parent-scheme="solarized-dark-local"
+  >
+  <author>DeepSeek</author>
+  <description>Custom colors for hex dump</description>
+  <color name="light-yellow" value="#FFB86C"/>
+
+  <style name="hex:hex-address" foreground="light-yellow" italic="true"/>
+  <style name="hex:hex-bytes" foreground="#0B99FF" bold="true"/>
+  <style name="hex:hex-ascii" foreground="#FF79C6"/>
+  <style name="hex:hex-separator" foreground="#888888" italic="true"/>
+</style-scheme>

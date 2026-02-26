@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language id="hex" name="Hex Dump" version="2.0" section="Other">
+  <metadata>
+    <property name="mimetypes">text/x-hexdump;application/octet-stream</property>
+    <!-- <property name="mimetypes">text/plain</property> -->
+    <property name="globs">*.hex</property>
+    <property name="line-comment-start"></property>
+    <property name="block-comment-start"></property>
+    <property name="block-comment-end"></property>
+  </metadata>
+
+  <styles>
+    <!--
+    <style id="address" name="Address" map-to="def:base-n-integer"/>
+    <style id="bytes" name="Bytes" map-to="def:string"/>
+    <style id="ascii" name="ASCII" map-to="def:comment"/>
+    <style id="separator" name="Separator" map-to="def:special-char"/>
+      -->
+      <style id="address" name="Address" map-to="hex:hex-address"/>
+      <style id="bytes" name="Bytes" map-to="hex:hex-bytes"/>
+      <style id="ascii" name="ASCII" map-to="hex:hex-ascii"/>
+  </styles>
+
+  <definitions>
+    <context id="hex">
+      <include>
+        <context id="address" style-ref="address">
+          <match>^[0-9a-fA-F]{8}</match>
+        </context>
+        <context id="ascii" style-ref="ascii">
+          <start>\|</start>
+          <end>\|$</end>
+        </context>
+        <!--
+        <context id="separator" style-ref="separator">
+          <match>\s+|\|</match>
+        </context>
+        -->
+        <context id="bytes" style-ref="bytes">
+          <match>[0-9a-fA-F]{2}</match>
+        </context>
+        
+      </include>
+    </context>
+  </definitions>
+</language>

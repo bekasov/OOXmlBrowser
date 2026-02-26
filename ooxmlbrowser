@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-from ui.MainWindow import MainWindow
+import sys
 
-win = MainWindow()
-win.run()
+from ui.gtk.Application import Application
+
+
+if __name__ == "__main__":
+    app = Application()
+    app.run(sys.argv)

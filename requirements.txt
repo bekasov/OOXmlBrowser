@@ -1,0 +1,5 @@
+pycairo>=1.18.0
+lxml>=6.0.2
+PyGObject>=3.54.5
+pytidylib>=0.3.2
+# cx_Freeze==8.6.0
