@@ -64,16 +64,11 @@ jobs:
         run: |
           pyinstaller disttools/OOXmlBrowserOneDir.spec
 
-      - name: Prepare artifact (tar.bz2)
-        run: |
-          cd dist
-          tar -cjf OOXmlBrowser-linux.tar.bz2 OOXmlBrowser/
-
-      - name: Upload Linux artifact
+      - name: Upload Linux artifact (folder)
         uses: actions/upload-artifact@v4
         with:
           name: OOXmlBrowser-linux
-          path: dist/OOXmlBrowser-linux.tar.bz2
+          path: dist/OOXmlBrowser
 
       - name: Create release (if tag or manual dispatch)
         if: >
