@@ -20,13 +20,12 @@ class SourceViewDisplay(IDisplayService):
             text_content, success = self.xml_converter.convert_from_bytes(content, True)
             if success:
                 ext = ".xml"
+            try:
+                text_content = text_content.decode("utf-8")
+            except Exception:
+                text_content = SourceViewDisplay.hexdump(text_content)
+                ext = ".hex"
         else:
-            text_content = SourceViewDisplay.hexdump(text_content)
-            ext = ".hex"
-
-        try:
-            text_content = text_content.decode("utf-8")
-        except Exception:
             text_content = SourceViewDisplay.hexdump(text_content)
             ext = ".hex"
 

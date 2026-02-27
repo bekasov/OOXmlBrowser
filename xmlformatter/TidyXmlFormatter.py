@@ -19,7 +19,7 @@ class TidyXmlFormatter(IXmlFormatter):
         }
         try:
             formatted, errors = tidy_document(content.decode('utf-8'), options=options)
-            return formatted.encode('utf-8'), errors
+            return formatted.encode('utf-8'), not errors
         except Exception as e:
             logging.exception("Error parsing xml")
 

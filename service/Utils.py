@@ -22,5 +22,8 @@ def extension_filter(file_path: str, extension: str) -> bool:
 
 
 def get_extension(file_path: str) -> str:
+    file_path = file_path.split('/')[-1]
     filename, file_extension = os.path.splitext(file_path)
+    if filename.startswith('.') and (file_extension is None or file_extension == '') :
+        file_extension = filename
     return file_extension

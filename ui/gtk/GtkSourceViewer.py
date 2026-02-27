@@ -1,12 +1,10 @@
-import collections
-
 from model.ISourceViewer import ISourceViewer
 
 from gi.repository import Gtk, GtkSource, Gio, GLib, Gdk
 
 
 class GtkSourceViewer(GtkSource.View, ISourceViewer):
-    __gtype_name__ = "SourceView"
+    __gtype_name__ = "GtkSourceViewer"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,38 +17,33 @@ class GtkSourceViewer(GtkSource.View, ISourceViewer):
         css_provider: Gtk.CssProvider = Gtk.CssProvider()
         css_provider.load_from_data(text="textview { font-family: Monospace; font-size: 14pt; }")
         Gtk.StyleContext.add_provider(self.get_style_context(), css_provider, 1)
-        # nn = Gtk.IconTheme.get_default().list_icons()
         #self.setup_context_menu()
 
     def set_text(self, file_name: str, text: str, extension: str) -> None:
         if file_name not in self.buffers:
-            self.buffers[file_name] = self._create_buffer(extension)
-        text_buffer: GtkSource.Buffer = self.buffers[file_name]
+            self.buffers[file_name] = self._create_buffer()
+
         self.buffers[file_name].set_text(text if text is not None else "")
-        # self.text_buffer.set_text(text if text is not None else "")
+        if extension is not None:
+            lang_manager = GtkSource.LanguageManager().get_default()
+            language: GtkSource.Language = lang_manager.guess_language(extension) # , "text/plain")
+            if language is not None :
+                self.buffers[file_name].set_language(language)
+            else :
+                print('language for "' + extension + '" not found')
 
     def clear(self) -> None:
         self.buffers.clear()
         self.set_text(None, None, None)
 
-    def _create_buffer(self, extension: str) -> GtkSource.Buffer:
+    def _create_buffer(self) -> GtkSource.Buffer:
         result: GtkSource.Buffer = self.get_buffer()
         style_manager: GtkSource.StyleSchemeManager = GtkSource.StyleSchemeManager.get_default()
-
         scheme = style_manager.get_scheme('ooxml-browser-hex-theme')
         if scheme is not None :
             result.set_style_scheme(scheme)
         else :
             print("theme not found")
-
-        if extension is not None:
-            lang_manager = GtkSource.LanguageManager().get_default()
-            language: GtkSource.Language = lang_manager.guess_language(extension) # , "text/plain")
-            if language is not None :
-                result.set_language(language)
-            else :
-                print('language for "' + extension + '" not found')
- 
         return result
 
     def setup_context_menu(self):
