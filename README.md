@@ -46,10 +46,10 @@ sudo pacman -S gtk4 gtksourceview5 gobject-introspection cairo python tidy
 For running from source on Windows, you need to set up MSYS2 with UCRT64 environment and install the required packages:
 ```bash
 pacman -Syu
-pacman -S mingw-w64-ucrt-x86_64-gtk4 mingw-w64-ucrt-x86_64-gtksourceview5 \
-          mingw-w64-ucrt-x86_64-python-lxml mingw-w64-ucrt-x86_64-python-gobject \
-          mingw-w64-ucrt-x86_64-cairo mingw-w64-ucrt-x86_64-python-pip \
-          mingw-w64-ucrt-x86_64-tidy mingw-w64-ucrt-x86_64-gobject-introspection
+pacman -S mingw-w64-ucrt-x86_64-gtk4 mingw-w64-ucrt-x86_64-gtksourceview5 mingw-w64-ucrt-x86_64-python-lxml \
+          mingw-w64-ucrt-x86_64-python-gobject mingw-w64-ucrt-x86_64-cairo mingw-w64-ucrt-x86_64-python-pip \
+          mingw-w64-ucrt-x86_64-tidy mingw-w64-ucrt-x86_64-gobject-introspection \
+          mingw-w64-ucrt-x86_64-pyinstaller-hooks-contrib
 ```
 
 ### Python Dependencies

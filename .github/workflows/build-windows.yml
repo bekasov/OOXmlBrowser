@@ -1,6 +1,4 @@
 name: Build Windows
-permissions:
-  contents: write
 
 on:
   push:
@@ -19,6 +17,8 @@ on:
 jobs:
   build-windows:
     name: Build for Windows
+    permissions:
+      contents: write
     runs-on: windows-latest
     defaults:
       run:

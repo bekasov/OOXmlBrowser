@@ -1,6 +1,4 @@
 name: Build Linux
-permissions:
-  contents: write
 
 on:
   push:
@@ -19,6 +17,8 @@ on:
 jobs:
   build-linux:
     name: Build for Linux
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
